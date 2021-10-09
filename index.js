@@ -14,7 +14,22 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config();
+
 const PORT = process.env.PORT || 5000; // So we can run on heroku || (OR) localhost:5000
+
+const mongodb = require('mongodb');
+const MongoClient = mongodb.MongoClient;
+
+MongoClient.connect(`mongodb+srv://admin:${process.env.MONGO_PASS}@cse341.w7n3c.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`)
+    .then(result => {
+        console.log("Connected");
+        console.log(result);
+    })
+    .catch(err => {
+        console.log(err);
+    });
 
 const app = express();
 
@@ -53,3 +68,6 @@ app
     res.render('pages/404', { title: '404 - Page Not Found', path: req.url });
   })
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+
+
